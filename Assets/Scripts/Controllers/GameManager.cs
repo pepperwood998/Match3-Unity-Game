@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance { get; private set; }
+
     public event Action<eStateGame> StateChangedAction = delegate { };
 
     public enum eLevelMode
@@ -38,6 +40,7 @@ public class GameManager : MonoBehaviour
 
     private GameSettings m_gameSettings;
 
+    private PoolManager m_poolManager;
 
     private BoardController m_boardController;
 
@@ -47,12 +50,16 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        Instance = this;
+
         State = eStateGame.SETUP;
 
         m_gameSettings = Resources.Load<GameSettings>(Constants.GAME_SETTINGS_PATH);
 
         m_uiMenu = FindObjectOfType<UIMainManager>();
         m_uiMenu.Setup(this);
+
+        m_poolManager = FindObjectOfType<PoolManager>();
     }
 
     void Start()
@@ -134,6 +141,29 @@ public class GameManager : MonoBehaviour
 
             Destroy(m_levelCondition);
             m_levelCondition = null;
+        }
+    }
+
+    public GameObject Spawn(GameObject prefab, Transform parent = null)
+    {
+        if (m_poolManager)
+        {
+            return m_poolManager.Spawn(prefab, parent);
+        }
+
+        var go = Instantiate(prefab, parent);
+        return go;
+    }
+
+    public void Despawn(GameObject go)
+    {
+        if (m_poolManager)
+        {
+            m_poolManager.Despawn(go);
+        }
+        else
+        {
+            Destroy(go);
         }
     }
 }
