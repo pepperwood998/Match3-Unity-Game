@@ -16,23 +16,51 @@ public class GameSettings : ScriptableObject
 
     public float TimeForHint = 5f;
 
-    [SerializeField]
-    private List<ItemConfig> m_itemConfigList;
+    public eThemeType ThemeType;
 
-    private Dictionary<NormalItem.eNormalType, ItemConfig> m_itemConfigMap;
+    [SerializeField]
+    private List<NormalItemConfig> m_itemConfigList;
+
+    [SerializeField]
+    private List<BonusItemConfig> m_bonusItemConfigList;
+
+    [SerializeField]
+    private List<ThemeConfig> m_themeConfigList;
+
+    private Dictionary<NormalItem.eNormalType, NormalItemConfig> m_itemConfigMap;
+
+    private Dictionary<BonusItem.eBonusType, BonusItemConfig> m_bonusItemConfigMap;
 
     public void Init()
     {
-        m_itemConfigMap = new Dictionary<NormalItem.eNormalType, ItemConfig>();
-        foreach (var itemConfig in m_itemConfigList)
+        var themeConfig = m_themeConfigList.Find(c => c.Type == ThemeType);
+
+        m_itemConfigMap = new Dictionary<NormalItem.eNormalType, NormalItemConfig>();
+        foreach (var itemConfig in themeConfig.ItemConfigList)
         {
             m_itemConfigMap.Add(itemConfig.Type, itemConfig);
         }
+
+        m_bonusItemConfigMap = new Dictionary<BonusItem.eBonusType, BonusItemConfig>();
+        foreach (var itemConfig in themeConfig.BonusItemConfigList)
+        {
+            m_bonusItemConfigMap.Add(itemConfig.Type, itemConfig);
+        }
     }
 
-    public ItemConfig GetItemConfig(NormalItem.eNormalType type)
+    public NormalItemConfig GetItemConfig(NormalItem.eNormalType type)
     {
         if (m_itemConfigMap.TryGetValue(type, out var itemConfig))
+        {
+            return itemConfig;
+        }
+
+        return null;
+    }
+
+    public BonusItemConfig GetBonusItemConfig(BonusItem.eBonusType type)
+    {
+        if (m_bonusItemConfigMap.TryGetValue(type, out var itemConfig))
         {
             return itemConfig;
         }
@@ -42,8 +70,32 @@ public class GameSettings : ScriptableObject
 }
 
 [System.Serializable]
-public class ItemConfig
+public class ThemeConfig
+{
+    public eThemeType Type;
+    public List<NormalItemConfig> ItemConfigList;
+    public List<BonusItemConfig> BonusItemConfigList;
+}
+
+public abstract class BaseItemConfig
+{
+    public Sprite Sprite;
+}
+
+[System.Serializable]
+public class NormalItemConfig : BaseItemConfig
 {
     public NormalItem.eNormalType Type;
-    public string PrefabName;
+}
+
+[System.Serializable]
+public class BonusItemConfig : BaseItemConfig
+{
+    public BonusItem.eBonusType Type;
+}
+
+public enum eThemeType
+{
+    CHARACTER,
+    FISH,
 }

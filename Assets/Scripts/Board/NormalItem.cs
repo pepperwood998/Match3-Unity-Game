@@ -17,18 +17,17 @@ public class NormalItem : Item
 
     public eNormalType ItemType;
 
-    private ItemConfig m_itemConfig;
+    private NormalItemConfig m_itemConfig;
 
-    public void SetItemConfig(ItemConfig itemConfig)
+    public void SetItemConfig(NormalItemConfig itemConfig)
     {
         m_itemConfig = itemConfig;
         ItemType = itemConfig.Type;
     }
 
-    protected override string GetPrefabName()
+    protected override Sprite GetSprite()
     {
-        string prefabname = m_itemConfig?.PrefabName;
-        return prefabname;
+        return m_itemConfig.Sprite;
     }
 
     internal override bool IsSameType(Item other)

@@ -15,30 +15,17 @@ public class BonusItem : Item
 
     public eBonusType ItemType;
 
-    public void SetType(eBonusType type)
+    private BonusItemConfig m_itemConfig;
+    
+    public void SetItemConfig(BonusItemConfig itemConfig)
     {
-        ItemType = type;
+        m_itemConfig = itemConfig;
+        ItemType = itemConfig.Type;
     }
 
-    protected override string GetPrefabName()
+    protected override Sprite GetSprite()
     {
-        string prefabname = string.Empty;
-        switch (ItemType)
-        {
-            case eBonusType.NONE:
-                break;
-            case eBonusType.HORIZONTAL:
-                prefabname = Constants.PREFAB_BONUS_HORIZONTAL;
-                break;
-            case eBonusType.VERTICAL:
-                prefabname = Constants.PREFAB_BONUS_VERTICAL;
-                break;
-            case eBonusType.ALL:
-                prefabname = Constants.PREFAB_BONUS_BOMB;
-                break;
-        }
-
-        return prefabname;
+        return m_itemConfig.Sprite;
     }
 
     internal override bool IsSameType(Item other)

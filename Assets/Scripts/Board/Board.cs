@@ -266,21 +266,27 @@ public class Board
         eMatchDirection dir = GetMatchDirection(matches);
 
         BonusItem item = new BonusItem();
+        BonusItemConfig itemConfig = null;
         switch (dir)
         {
             case eMatchDirection.ALL:
-                item.SetType(BonusItem.eBonusType.ALL);
+                itemConfig = m_gameSettings.GetBonusItemConfig(BonusItem.eBonusType.ALL);
                 break;
             case eMatchDirection.HORIZONTAL:
-                item.SetType(BonusItem.eBonusType.HORIZONTAL);
+                itemConfig = m_gameSettings.GetBonusItemConfig(BonusItem.eBonusType.HORIZONTAL);
                 break;
             case eMatchDirection.VERTICAL:
-                item.SetType(BonusItem.eBonusType.VERTICAL);
+                itemConfig = m_gameSettings.GetBonusItemConfig(BonusItem.eBonusType.VERTICAL);
                 break;
         }
 
         if (item != null)
         {
+            if (itemConfig != null)
+            {
+                item.SetItemConfig(itemConfig);
+            }
+
             if (cellToConvert == null)
             {
                 int rnd = UnityEngine.Random.Range(0, matches.Count);
