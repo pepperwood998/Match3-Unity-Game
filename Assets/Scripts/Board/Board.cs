@@ -670,6 +670,18 @@ public class Board
         }
     }
 
+    public void Restart()
+    {
+        for (int x = 0; x < boardSizeX; x++)
+        {
+            for (int y = 0; y < boardSizeY; y++)
+            {
+                Cell cell = m_cells[x, y];
+                cell.ExplodeItem();
+            }
+        }
+    }
+
     public void Clear()
     {
         for (int x = 0; x < boardSizeX; x++)

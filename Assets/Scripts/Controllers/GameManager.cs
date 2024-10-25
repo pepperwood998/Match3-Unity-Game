@@ -150,6 +150,9 @@ public class GameManager : MonoBehaviour
         if (m_levelCondition != null)
         {
             m_levelCondition.Restart();
+        }
+        if (m_boardController)
+        {
             m_boardController.Restart();
         }
     }

@@ -282,7 +282,17 @@ public class BoardController : MonoBehaviour
     public void Restart()
     {
         StopHints();
-        StartCoroutine(ShuffleBoardCoroutine());
+
+        StartCoroutine(RestartBoardCoroutine());
+    }
+
+    private IEnumerator RestartBoardCoroutine()
+    {
+        m_board.Restart();
+
+        yield return new WaitForSeconds(0.2f);
+
+        Fill();
     }
 
     internal void Clear()
