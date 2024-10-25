@@ -145,6 +145,15 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void RestartLevel()
+    {
+        if (m_levelCondition != null)
+        {
+            m_levelCondition.Restart();
+            m_boardController.Restart();
+        }
+    }
+
     public GameObject Spawn(GameObject prefab, Transform parent = null)
     {
         if (m_poolManager)

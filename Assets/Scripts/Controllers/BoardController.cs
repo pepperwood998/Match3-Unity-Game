@@ -279,6 +279,12 @@ public class BoardController : MonoBehaviour
         return cell1.IsNeighbour(cell2);
     }
 
+    public void Restart()
+    {
+        StopHints();
+        StartCoroutine(ShuffleBoardCoroutine());
+    }
+
     internal void Clear()
     {
         m_board.Clear();

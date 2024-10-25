@@ -19,12 +19,6 @@ public class GameSettings : ScriptableObject
     public eThemeType ThemeType;
 
     [SerializeField]
-    private List<NormalItemConfig> m_itemConfigList;
-
-    [SerializeField]
-    private List<BonusItemConfig> m_bonusItemConfigList;
-
-    [SerializeField]
     private List<ThemeConfig> m_themeConfigList;
 
     private Dictionary<NormalItem.eNormalType, NormalItemConfig> m_itemConfigMap;
