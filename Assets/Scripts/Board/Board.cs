@@ -265,7 +265,6 @@ public class Board
     {
         eMatchDirection dir = GetMatchDirection(matches);
 
-        BonusItem item = new BonusItem();
         BonusItemConfig itemConfig = null;
         switch (dir)
         {
@@ -280,26 +279,26 @@ public class Board
                 break;
         }
 
-        if (item != null)
+        if (itemConfig == null)
         {
-            if (itemConfig != null)
-            {
-                item.SetItemConfig(itemConfig);
-            }
-
-            if (cellToConvert == null)
-            {
-                int rnd = UnityEngine.Random.Range(0, matches.Count);
-                cellToConvert = matches[rnd];
-            }
-
-            item.SetView();
-            item.SetViewRoot(m_root);
-
-            cellToConvert.Free();
-            cellToConvert.Assign(item);
-            cellToConvert.ApplyItemPosition(true);
+            return;
         }
+
+        BonusItem item = new BonusItem();
+        item.SetItemConfig(itemConfig);
+
+        if (cellToConvert == null)
+        {
+            int rnd = UnityEngine.Random.Range(0, matches.Count);
+            cellToConvert = matches[rnd];
+        }
+
+        item.SetView();
+        item.SetViewRoot(m_root);
+
+        cellToConvert.Free();
+        cellToConvert.Assign(item);
+        cellToConvert.ApplyItemPosition(true);
     }
 
 
@@ -347,7 +346,7 @@ public class Board
                 var listvert = GetVerticalMatches(cell);
                 if (listvert.Count >= m_matchMin)
                 {
-                    matchCells.UnionWith(listhor);
+                    matchCells.UnionWith(listvert);
                     break;
                 }
             }
